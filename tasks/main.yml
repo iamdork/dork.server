@@ -26,3 +26,21 @@
   template:
     src: hosts.j2
     dest: /etc/ansible/hosts
+
+- name: create custom roles and playbooks directories
+  file:
+    path: /opt/{{ item }}
+    state: directory
+  with_items:
+  - playbooks
+  - roles
+
+- name: sync custom roles and playbooks
+  synchronize:
+    src: /opt/{{ item }}/
+    dest: /opt/{{ item }}/
+    recursive: yes
+  with_items:
+  - playbooks
+  - roles
+
