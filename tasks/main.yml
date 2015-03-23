@@ -1,0 +1,28 @@
+- name: ensure ssh directory exists
+  file:
+    path: /home/{{ dork_user }}/.ssh
+    state: directory
+
+- name: write authorized keys file
+  template:
+    src: authorized_keys.j2
+    dest: /home/{{ dork_user }}/.ssh/authorized_keys
+
+- name: create source and build directories
+  file:
+    path: /var/{{ item }}
+    state: directory
+    owner: "{{ dork_user }}"
+  with_items:
+  - source
+  - build
+
+- name: create ansible directory
+  file:
+    path: /etc/ansible
+    state: directory
+
+- name: create ansible hosts file
+  template:
+    src: hosts.j2
+    dest: /etc/ansible/hosts
