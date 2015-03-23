@@ -27,6 +27,14 @@
     src: hosts.j2
     dest: /etc/ansible/hosts
 
+- name: copy roles.yml
+  copy:
+    src: /vagrant/roles.yml
+    dest: /etc/ansible/roles.yml
+
+- name: run ansible-galaxy install
+  shell: ansible-galaxy install --no-deps --force --role-file=/etc/ansible/roles.yml
+
 - name: create custom roles and playbooks directories
   file:
     path: /opt/{{ item }}
