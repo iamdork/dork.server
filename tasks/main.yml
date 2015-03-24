@@ -31,6 +31,13 @@
   copy:
     src: /vagrant/roles.yml
     dest: /etc/ansible/roles.yml
+  when: not dork_custom is defined
+
+- name: copy roles.yml
+  copy:
+    src: /opt/roles/{{ dork_custom }}/vagrant/roles.yml
+    dest: /etc/ansible/roles.yml
+  when: dork_custom is defined
 
 - name: run ansible-galaxy install
   shell: ansible-galaxy install --no-deps --force --role-file=/etc/ansible/roles.yml
@@ -51,4 +58,15 @@
   with_items:
   - playbooks
   - roles
+  when: not dork_custom is defined
+
+- name: sync custom roles and playbooks
+  synchronize:
+    src: /opt/roles/custom/{{ dork_custom }}/{{ item }}/
+    dest: /opt/{{ item }}/
+    recursive: yes
+  with_items:
+  - playbooks
+  - roles
+  when: dork_custom is defined
 
