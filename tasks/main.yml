@@ -35,7 +35,7 @@
 
 - name: copy roles.yml
   copy:
-    src: /opt/roles/{{ dork_custom }}/vagrant/roles.yml
+    src: /opt/roles/custom/{{ dork_custom }}/vagrant/roles.yml
     dest: /etc/ansible/roles.yml
   when: dork_custom is defined
 
