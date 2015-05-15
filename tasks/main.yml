@@ -1,18 +1,9 @@
-- name: ensure ssh directory exists
-  file:
-    path: /home/{{ dork_user }}/.ssh
-    state: directory
-
-- name: write authorized keys file
-  template:
-    src: authorized_keys.j2
-    dest: /home/{{ dork_user }}/.ssh/authorized_keys
-
 - name: create source and build directories
   file:
     path: /var/{{ item }}
     state: directory
-    owner: "{{ dork_user }}"
+    group: dork
+    mode: 0775
   with_items:
   - source
   - build
