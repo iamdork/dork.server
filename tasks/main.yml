@@ -1,3 +1,4 @@
+# Basic directories
 - name: create source and build directories
   file:
     path: /var/{{ item }}
@@ -16,8 +17,11 @@
 - name: create ansible hosts file
   template:
     src: hosts.j2
-    dest: /etc/ansible/hosts
+    dest: /etc/ansible/hosts.d/self.ini
 
+# ======================================================================
+# roles.yml containing roles to download
+# ======================================================================
 - name: copy roles.yml
   copy:
     src: /vagrant/roles.yml
@@ -33,6 +37,9 @@
 - name: run ansible-galaxy install
   shell: ansible-galaxy install --no-deps --force --role-file=/etc/ansible/roles.yml
 
+# ======================================================================
+# Custom roles and playbooks
+# ======================================================================
 - name: create custom roles and playbooks directories
   file:
     path: /opt/{{ item }}
@@ -63,3 +70,17 @@
   - roles
   when: dork_custom is defined
 
+# ======================================================================
+# Custom inventory
+# ======================================================================
+- name: sync custom roles and playbooks
+  copy:
+    src: /opt/roles/{{ dork_custom}}/inventory.ini
+    dest: /etc/ansible/hosts.d/custom.ini
+  when: not dork_custom is defined
+
+- name: sync custom roles and playbooks
+  copy:
+    src: /vagrant/inventory.ini
+    dest: /etc/ansible/hosts.d/custom.ini
+  when: dork_custom is defined
