@@ -75,7 +75,7 @@
 # ======================================================================
 - name: sync custom roles and playbooks
   copy:
-    src: /opt/roles/{{ dork_custom}}/inventory.ini
+    src: /opt/roles/custom/{{ dork_custom}}/vagrant/inventory.ini
     dest: /etc/ansible/hosts.d/custom.ini
   when: dork_custom is defined
 
