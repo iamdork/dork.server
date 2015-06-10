@@ -17,7 +17,7 @@
 - name: create ansible hosts file
   template:
     src: hosts.j2
-    dest: /etc/ansible/hosts.d/self.ini
+    dest: /etc/ansible/hosts.d/self
 
 # ======================================================================
 # Clone dorkstation
@@ -56,13 +56,7 @@
 # Custom inventory
 # ======================================================================
 - name: sync custom roles and playbooks
-  copy:
-    src: /opt/roles/custom/{{ dork_custom}}/vagrant/inventory.ini
-    dest: /etc/ansible/hosts.d/custom.ini
-  when: dork_custom is defined
-
-- name: sync custom roles and playbooks
-  copy:
-    src: /vagrant/inventory.ini
-    dest: /etc/ansible/hosts.d/custom.ini
-  when: not dork_custom is defined
+  file:
+    src: /opt/dorkstation/vagrant/inventory.ini
+    dest: /etc/ansible/hosts.d/custom
+    state: link
