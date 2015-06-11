@@ -51,12 +51,3 @@
   with_items:
   - playbooks
   - roles
-
-# ======================================================================
-# Custom inventory
-# ======================================================================
-- name: sync custom roles and playbooks
-  file:
-    src: /opt/dorkstation/vagrant/inventory.ini
-    dest: /etc/ansible/hosts.d/custom
-    state: link
