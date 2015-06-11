@@ -27,6 +27,8 @@
     repo: "{{ server_dorkstation_repo }}"
     accept_hostkey: yes
     dest: /opt/dorkstation
+  tags:
+  - update-dork
 
 # ======================================================================
 # roles.yml containing roles to download
@@ -39,6 +41,8 @@
 
 - name: run ansible-galaxy install
   shell: ansible-galaxy install --no-deps --force --role-file=/etc/ansible/roles.yml
+  tags:
+  - update-dork
 
 # ======================================================================
 # Custom roles and playbooks
