@@ -1,4 +1,9 @@
 # Basic directories
+- name: create group dork
+  group:
+    name: dork
+    state: present
+
 - name: create source and build directories
   file:
     path: /var/{{ item }}
